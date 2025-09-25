@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASSL - Resource Allocation and Stochastic Systems Lab</title>
+    <link rel="icon" href="favicon.png" sizes="32x32">
+    <link rel="icon" href="favicon.png" sizes="any">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="mask-icon" href="/favicon.svg">
+    <meta name="msapplication-TileImage" content="/favicon.png">
+    <meta name="description" content="RASSL at McMaster Engineering: research in stochastic modelling, scheduling, and performance evaluation led by Dr. Douglas Down.">
+    <meta property="og:title" content="RASSL – McMaster Engineering">
+    <meta property="og:description" content="Resource Allocation & Stochastic Systems Lab at McMaster University.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1554474052-513963c24196?q=80&w=1200&auto=format&fit=crop">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Brand palette aligned with McMaster site tokens */
+            --mcmaster-maroon: #79003C; /* primary-000 */
+            --mcmaster-maroon-2: #A80053; /* secondary-000 */
+            --gold-accent: #FDBF57; /* primary-100 */
+            --gold-accent-2: #FEE489; /* primary-200 */
+            --neutral-000: #23242A;
+            --neutral-100: #5E6A71;
+            --neutral-200: #DBDBDD;
+            --neutral-300: #F6F7F8;
+            --white: #ffffff;
+
+            /* Backwards-compatible aliases */
+            --dark-grey: var(--neutral-000);
+            --medium-grey: var(--neutral-100);
+            --light-grey: var(--neutral-300);
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            background-color: var(--white);
+            color: var(--medium-grey);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        /* --- Header & Hero Banner --- */
+        .site-header {
+            background: rgba(42, 42, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+        
+        .nav-brand .logo {
+            max-height: 40px;
+        }
+
+        .nav-brand .lab-name {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Global link styles */
+        a {
+            color: var(--mcmaster-maroon);
+            text-underline-offset: 3px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Accessible focus styles */
+        :focus-visible {
+            outline: 3px solid var(--gold-accent);
+            outline-offset: 2px;
+        }
+        
+        .hero-banner {
+            background-image: linear-gradient(rgba(40, 0, 20, 0.6), rgba(40, 0, 20, 0.6)), url('https://images.unsplash.com/photo-1554474052-513963c24196?q=80&w=2940&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .indicator.active {
+            background: var(--white);
+        }
+        @media (max-width: 768px) {
+        .hero-banner {
+            background-image: linear-gradient(rgba(40, 0, 20, 0.6), rgba(40, 0, 20, 0.6)), url('https://images.unsplash.com/photo-1554474052-513963c24196?q=80&w=2940&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-slides {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .indicator.active {
+            background: var(--white);
+        }            .hero-banner h1 { font-size: 2.4rem; }
+            .hero-banner p { font-size: 1.05rem; }
+        }
+
+        .hero-banner .mcmaster-eng-logo {
+            max-height: 50px;
+            background-color: var(--white);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-banner h1 {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            font-weight: 700;
+        }
+
+        .hero-banner p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        /* --- Main Content Sections --- */
+        main {
+            padding: 60px 0;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--dark-grey);
+            margin-bottom: 40px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Roboto Condensed', 'Roboto', Arial, sans-serif;
+        }
+        
+        /* Card Layout for News and People */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            background-color: var(--mcmaster-maroon);
+            color: var(--white);
+        }
+
+        .card:hover h3, .card:hover p, .card:hover a, .card:hover li {
+            color: var(--white);
+        }
+
+        /* Buttons consistent with visual system */
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            line-height: 1.2;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--mcmaster-maroon);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #5e002f;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--mcmaster-maroon);
+            border-color: var(--mcmaster-maroon);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(122, 0, 60, 0.08);
+        }
+        
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            display: block;
+            border: 3px solid var(--light-grey);
+        }
+
+        .card.faculty-card {
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            color: var(--mcmaster-maroon);
+            margin-top: 0;
+        }
+        
+        .card ul {
+            padding-left: 20px;
+        }
+
+        #research ul {
+             list-style-type: none;
+             padding: 0;
+             text-align: center;
+        }
+        
+        #research li {
+            display: inline-block;
+            background-color: var(--light-grey);
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: var(--dark-grey);
+        }
+        
+        /* Footer */
+        .site-footer {
+            background-color: var(--dark-grey);
+            color: #ccc;
+            padding: 50px 0;
+        }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--gold-accent);
+            color: var(--dark-grey);
+            padding: 8px 12px;
+            z-index: 10000;
+            text-decoration: none;
+            border-radius: 0 0 4px 0;
+        }
+        .skip-link:focus { top: 0; }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-grid h3 {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-grid p, .footer-grid a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        
+        .footer-grid a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-grey);
+            font-size: 0.9rem;
+        }
+
+        /* Side Links panel */
+        .side-links {
+            border-top: 1px solid var(--neutral-200);
+            border-bottom: 1px solid var(--neutral-200);
+            background: var(--white);
+            padding: 48px 0;
+        }
+        .side-links .links-title {
+            font-size: 1rem;
+            color: var(--neutral-100);
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+        .side-links .links-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0 0;
+        }
+        .side-links .links-list li { margin-bottom: 12px; }
+        .link-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem 1rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--mcmaster-maroon);
+            background: transparent;
+            border: 2px solid var(--mcmaster-maroon);
+            transition: transform .15s ease, background-color .2s ease, color .2s ease;
+        }
+        .link-chip:hover { background: rgba(121, 0, 60, 0.08); }
+
+        /* Align student social chips on one row with the name when space allows */
+        #people .card ul li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Students grid: 3 columns (Name | LinkedIn | Scholar) */
+        #people .students-grid {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #people .students-grid li {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--neutral-200);
+        }
+        #people .students-grid li:last-child { border-bottom: none; }
+        #people .students-grid .student-name { color: var(--neutral-100); }
+        #people .students-grid .link-chip {
+            padding: .35rem .75rem;
+            font-size: 0.85rem;
+        }
+
+        /* Quote component */
+        .quote {
+            text-align: center;
+            color: var(--neutral-100);
+            padding: 60px 0;
+        }
+        .quote .avatar {
+            width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+            margin: 0 auto 20px; display: block;
+        }
+        .quote .text { font-family: 'Roboto', Arial, sans-serif; font-size: 1.5rem; line-height: 1.4; color: var(--dark-grey); }
+        @media (min-width: 1024px) { .quote .text { font-size: 2.0rem; } }
+        .quote .author { margin-top: 12px; font-weight: 600; color: var(--mcmaster-maroon); }
+
+        /* Tables */
+        table.brand-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        table.brand-table th, table.brand-table td { border: 1px solid var(--neutral-200); padding: 12px; text-align: left; }
+        table.brand-table thead th { background: var(--neutral-300); color: var(--neutral-000); }
+
+        /* Forms */
+        .brand-form input[type="text"], .brand-form input[type="email"], .brand-form textarea, .brand-form select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--neutral-200);
+            font: inherit;
+            color: var(--neutral-000);
+            background: var(--white);
+        }
+        .brand-form label { display: inline-block; margin-bottom: 6px; color: var(--neutral-100); }
+        .brand-form .form-row { margin-bottom: 16px; }
+        .brand-form .actions { margin-top: 12px; }
+    </style>
+</head>
+<body>
+
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="site-header">
+        <nav class="container" aria-label="Primary">
+            <div class="nav-brand">
+                <a href="#">
+                    <img src="rassl-lab-logo.png" alt="RASSL Lab Logo" class="logo">
+                    <span class="lab-name">RASSL</span>
+                </a>
+            </div>
+            <div class="nav-links" role="navigation" aria-label="Section">
+                <a href="#welcome">Home</a>
+                <a href="#news">News</a>
+                <a href="#research">Research</a>
+                <a href="#people">People</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-slides">
+            <!-- Slide 1: Main Lab Introduction -->
+            <div class="hero-slide active">
+                <div class="container">
+                    <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                        <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="mcmaster-eng-logo">
+                    </a>
+                    <h1>Resource Allocation & Stochastic Systems</h1>
+                    <p>A research lab at McMaster University focused on stochastic modelling, scheduling, and performance evaluation of computer and communication systems, led by Dr. Douglas Down.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a class="btn btn-primary" href="https://www.eng.mcmaster.ca/cas/" target="_blank" rel="noopener noreferrer">Visit CAS Department</a>
+                        <a class="btn btn-secondary" href="#people">Meet Our Team</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Research Focus -->
+            <div class="hero-slide">
+                <div class="container">
+                    <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                        <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="mcmaster-eng-logo">
+                    </a>
+                    <h1>Our Research Focus</h1>
+                    <p>We develop cutting-edge solutions in queueing theory, data center optimization, healthcare resource allocation, and machine learning applications for system performance.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a class="btn btn-primary" href="#research">Explore Research</a>
+                        <a class="btn btn-secondary" href="#publications">Latest Publications</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Recent Achievements -->
+            <div class="hero-slide">
+                <div class="container">
+                    <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                        <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="mcmaster-eng-logo">
+                    </a>
+                    <h1>Recent Achievements</h1>
+                    <p>10+ publications in 2023-2025 in top-tier journals including IEEE, ACM, and PLoS ONE. Leading research in healthcare optimization and data center management.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a class="btn btn-primary" href="#publications">View Publications</a>
+                        <a class="btn btn-secondary" href="#news">Latest News</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Real-World Impact -->
+            <div class="hero-slide">
+                <div class="container">
+                    <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                        <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="mcmaster-eng-logo">
+                    </a>
+                    <h1>Real-World Impact</h1>
+                    <p>Our research directly improves hospital blood management systems, optimizes cloud computing resources, and enhances data center energy efficiency worldwide.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a class="btn btn-primary" href="#research">Learn More</a>
+                        <a class="btn btn-secondary" href="#contact">Collaborate</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Team Excellence -->
+            <div class="hero-slide">
+                <div class="container">
+                    <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                        <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="mcmaster-eng-logo">
+                    </a>
+                    <h1>Excellence in Research Training</h1>
+                    <p>Join our dynamic team of PhD and MSc students working on groundbreaking research in stochastic systems, supervised by internationally recognized faculty.</p>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                        <a class="btn btn-primary" href="#people">Meet Our Team</a>
+                        <a class="btn btn-secondary" href="#contact">Join Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide Indicators -->
+        <div class="slide-indicators">
+            <div class="indicator active" onclick="currentSlide(1)"></div>
+            <div class="indicator" onclick="currentSlide(2)"></div>
+            <div class="indicator" onclick="currentSlide(3)"></div>
+            <div class="indicator" onclick="currentSlide(4)"></div>
+            <div class="indicator" onclick="currentSlide(5)"></div>
+        </div>
+    </section>
+    <main id="main-content" role="main" aria-label="Main content">
+        <section id="news" class="container">
+            <h2>Latest News & Events</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Upcoming Events</h3>
+                    <ul>
+                        <li><strong>Sept 25, 2025:</strong> Zhaleh Rahimi presents research on queueing theory at the Departmental Seminar.</li>
+                        <li><strong>Oct 10, 2025:</strong> RASSL hosts a guest lecture on Data Center Optimization.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Recent News</h3>
+                    <ul>
+                        <li>Congratulations to Saira Musa! Her paper was accepted to the IEEE ICC.</li>
+                        <li>We are pleased to welcome our new MSc student, Shawn Xang!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="container">
+            <h2>Latest Articles</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Recent Publications (2023-2025)</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://www.sciencedirect.com/science/article/pii/S3050784725000030" target="_blank" rel="noopener noreferrer">Clustering-based demand forecasting with an application to immunoglobulin products</a></strong><br>
+                            <em>Operations Research, Data Analytics and Logistics</em>, Vol. 45, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4807963" target="_blank" rel="noopener noreferrer">Optimal ordering policy for perishable products by incorporating demand forecasts</a></strong><br>
+                            <em>European Journal of Operational Research</em>, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://link.springer.com/article/10.1007/s10729-025-09706-w" target="_blank" rel="noopener noreferrer">Blood platelet inventory management: Incorporating data-driven demand forecasts</a></strong><br>
+                            <em>Health Care Management Science</em>, Vol. 28, pp. 191-206, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://ieeexplore.ieee.org/document/10520293/" target="_blank" rel="noopener noreferrer">Linearized Data Center Workload and Cooling Management</a></strong><br>
+                            <em>IEEE Transactions on Automation Science and Engineering</em>, Vol. 22, pp. 3502-3514, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://www.tandfonline.com/doi/full/10.1080/01605682.2025.2546058" target="_blank" rel="noopener noreferrer">Patient segmentation and resource allocation for tailored healthcare delivery</a></strong><br>
+                            <em>Journal of the Operational Research Society</em>, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://publications.eai.eu/index.php/sis/article/view/9110" target="_blank" rel="noopener noreferrer">Smart Data Prefetching Using KNN to Improve Hadoop Performance</a></strong><br>
+                            <em>EAI Endorsed Transactions on Scalable Information Systems</em>, Vol. 12, 2025
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0297391" target="_blank" rel="noopener noreferrer">Demand forecasting for platelet usage: From univariate time series to multivariable models</a></strong><br>
+                            <em>PLoS ONE</em>, Vol. 19, e0297391, 2024
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://ieeexplore.ieee.org/document/10838311/" target="_blank" rel="noopener noreferrer">Cost-Effective Cloud Resource Provisioning Using Linear Regression</a></strong><br>
+                            <em>Proceedings of CloudCom 2024</em>, pp. 176-183, 2024
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://ashpublications.org/blood/article/142/26/2231/506637/Deep-learning-for-platelet-transfusion" target="_blank" rel="noopener noreferrer">Deep learning for platelet transfusion</a></strong><br>
+                            <em>Blood</em>, Vol. 142, pp. 2231-2232, 2023
+                        </li>
+                        <li style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--neutral-200);">
+                            <strong><a href="https://dl.acm.org/doi/abs/10.1145/3580491" target="_blank" rel="noopener noreferrer">SEH: Size Estimate Hedging Scheduling of Queues</a></strong><br>
+                            <em>ACM Transactions on Modeling and Computer Simulation</em>, Vol. 33, pp. 1-17, 2023
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="container">
+            <h2>Research Areas</h2>
+            <ul>
+                <li>Stochastic Modelling</li>
+                <li>Scheduling</li>
+                <li>Performance Evaluation</li>
+                <li>Queueing Theory</li>
+                <li>Data Center Control Systems</li>
+            </ul>
+        </section>
+
+        <section id="people" class="container">
+            <h2>Our Team</h2>
+            <div class="card-grid">
+                <div class="card faculty-card">
+                    <img src="https://www.eng.mcmaster.ca/app/uploads/2023/09/Douglas_Down_headshot.jpg" alt="Dr. Douglas Down" class="profile-pic" referrerpolicy="no-referrer">
+                    <h3>Dr. Douglas Down</h3>
+                    <p>Professor</p>
+                    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:8px;">
+                        <a class="link-chip" href="https://www.linkedin.com/in/douglas-down-6b41b931/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                        <a class="link-chip" href="https://scholar.google.com/citations?user=J5OlsYQAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                        <a class="link-chip" href="https://experts.mcmaster.ca/display/downd" target="_blank" rel="noopener noreferrer">Personal Webpage</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Graduate and Visiting Students</h3>
+                    <ul class="students-grid" aria-label="Graduate and Visiting Students">
+                        <li>
+                            <span class="student-name">Rana Ghazali (Visiting)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/rana-ghazali-64a88b7a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a class="link-chip" href="https://scholar.google.com/citations?user=MQl2HLMAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                        </li>
+                        <li>
+                            <span class="student-name">Zhaleh Rahimi (PhD)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/rahimi-zhaleh/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a class="link-chip" href="https://scholar.google.com/citations?user=BdUnDGQAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                        </li>
+                        <li>
+                            <span class="student-name">Saira Musa (PhD)</span>
+                            <a class="link-chip" href="https://ca.linkedin.com/in/saira-musa-502363244" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <span class="no-link" aria-hidden="true"></span>
+                        </li>
+                        <li>
+                            <span class="student-name">Parshia Akbari Moghadam (PhD)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/catricka/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a class="link-chip" href="https://scholar.google.com/citations?user=B-Fv5D0AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                        </li>
+                        <li>
+                            <span class="student-name">Anthony Fabian (MSc)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/anthonyfabian/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <span class="no-link" aria-hidden="true"></span>
+                        </li>
+                        <li>
+                            <span class="student-name">Seyedmohamad Mirhoseininejad (PhD)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/mohamadnejad/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a class="link-chip" href="https://scholar.google.com/citations?user=MQkccOQAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+                        </li>
+                        <li>
+                            <span class="student-name">Shawn Xang (MSc)</span>
+                            <a class="link-chip" href="https://www.linkedin.com/in/xiang-zhang-mac/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <span class="no-link" aria-hidden="true"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Side Links panel (brand-inspired) -->
+        <section class="side-links">
+            <div class="container">
+                <div class="card-grid">
+                    <div>
+                        <h3 class="links-title">Explore</h3>
+                        <ul class="links-list">
+                            <li><a class="link-chip" href="#news">Latest News</a></li>
+                            <li><a class="link-chip" href="#research">Research Areas</a></li>
+                            <li><a class="link-chip" href="#people">Our People</a></li>
+                            <li><a class="link-chip" href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="links-title">McMaster</h3>
+                        <ul class="links-list">
+                            <li><a class="link-chip" href="https://www.eng.mcmaster.ca/cas/" target="_blank" rel="noopener noreferrer">CAS Department</a></li>
+                            <li><a class="link-chip" href="https://www.eng.mcmaster.ca/" target="_blank" rel="noopener noreferrer">Faculty of Engineering</a></li>
+                            <li><a class="link-chip" href="https://www.mcmaster.ca/" target="_blank" rel="noopener noreferrer">McMaster University</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Sample contact form -->
+        <section id="contact-form" class="container">
+            <h2>Get in touch</h2>
+            <form class="brand-form" action="#" method="post" aria-label="Contact form">
+                <div class="form-row">
+                    <label for="cf-name">Name</label>
+                    <input type="text" id="cf-name" name="name" required placeholder="Your name">
+                </div>
+                <div class="form-row">
+                    <label for="cf-email">Email</label>
+                    <input type="email" id="cf-email" name="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-row">
+                    <label for="cf-message">Message</label>
+                    <textarea id="cf-message" name="message" rows="5" required placeholder="How can we help?"></textarea>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </div>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="site-footer" aria-label="Footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>RASSL</h3>
+                    <p>Resource Allocation and Stochastic Systems Lab</p>
+                                        <p><a href="https://www.eng.mcmaster.ca/cas/" target="_blank" rel="noopener noreferrer">Department of Computing and Software</a></p>
+                </div>
+                <div id="contact">
+                    <h3>Contact Us</h3>
+                    <p><strong>Email:</strong> <a href="mailto:rassl-contact@mcmaster.ca">rassl-contact@mcmaster.ca</a></p>
+                    <p><strong>Address:</strong><br>1280 Main Street West<br>Hamilton, ON, L8S 4L8</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <p><a href="https://www.eng.mcmaster.ca/cas/" target="_blank" rel="noopener noreferrer">Dept. of Computing & Software</a></p>
+                    <p><a href="https://www.eng.mcmaster.ca/" target="_blank" rel="noopener noreferrer">Faculty of Engineering</a></p>
+                    <p><a href="https://www.mcmaster.ca/" target="_blank" rel="noopener noreferrer">McMaster University</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RASSL | McMaster University</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Show current slide
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            showSlide(currentSlideIndex);
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+        }
+
+        // Auto-advance slides every 5 seconds
+        setInterval(nextSlide, 5000);
+    </script></body>
+</html>
