@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASSL Prospective Students</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mcmaster-maroon: #79003C;
+            --mcmaster-gold: #FDBF57;
+            --neutral-000: #ffffff;
+            --neutral-050: #f7f7f7;
+            --neutral-100: #333333;
+            --neutral-200: #e0e0e0;
+            --neutral-300: #cccccc;
+            --white: #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            background: var(--neutral-050);
+            color: var(--neutral-100);
+            line-height: 1.7;
+        }
+        a { color: var(--mcmaster-maroon); }
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+
+        .site-header .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--mcmaster-gold);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .nav-brand .logo {
+            max-height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links a {
+            color: #23242A;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+
+        .nav-links .logo {
+            max-height: 45px;
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .nav-links a:has(.logo) {
+            padding: 0;
+        }
+
+        .nav-links a:has(.logo):hover {
+            background-color: transparent;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--mcmaster-gold);
+            outline-offset: 2px;
+        }
+        .hero {
+            background: var(--neutral-000);
+            padding: 80px 0 40px;
+        }
+        .hero h1 {
+            font-family: "Roboto Condensed", sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            margin-bottom: 12px;
+            color: var(--mcmaster-maroon);
+        }
+        .hero p {
+            font-size: 1.05rem;
+            max-width: 720px;
+        }
+        .card {
+            background: var(--neutral-000);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-200);
+            margin-bottom: 28px;
+            transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+        .card:hover {
+            border-color: var(--mcmaster-maroon);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(121, 0, 60, 0.07);
+        }
+        h2 {
+            font-family: "Roboto Condensed", sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.3rem);
+            margin-bottom: 18px;
+        }
+        h3 {
+            font-family: "Roboto Condensed", sans-serif;
+            margin-top: 0;
+        }
+        ul { padding-left: 20px; }
+        #email-display {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        footer {
+            background: #1f1f1f;
+            color: #d9d9d9;
+            text-align: center;
+            padding: 28px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container" aria-label="Primary">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <img src="Logo2.png" alt="RASSL Lab logo" class="logo">
+                </a>
+            </div>
+            <div class="nav-links" role="navigation" aria-label="Section">
+                <a href="index.html#welcome">Home</a>
+                <a href="news.html">News</a>
+                <a href="index.html#research">Research</a>
+                <a href="index.html#people">People</a>
+                <a href="prospective-students.html" aria-current="page">Prospective Students</a>
+                <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                    <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="logo">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Prospective Students</h1>
+            <p>Thank you for your interest in the Resource Allocation and Stochastic Systems Lab. We regularly post opportunities for motivated students passionate about stochastic systems, queueing theory, and large-scale optimization.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="card">
+            <h2>Current Availability</h2>
+            <p>RASSL is not accepting new graduate students or visiting scholars at this time. Please revisit this website in the future for announcements about new openings.</p>
+        </div>
+
+        <div class="card">
+            <h2>Preparing to Apply</h2>
+            <p>When opportunities reopen, we look for students with strong analytical skills, an aptitude for probability and optimization, and enthusiasm for applying theory to real-world resource allocation problems. We recommend preparing the following:</p>
+            <ul>
+                <li>Curriculum vitae highlighting relevant coursework or projects</li>
+                <li>Transcript(s) showing academic preparation in mathematics, statistics, or computer science</li>
+                <li>A brief statement describing your research interests and motivation to join RASSL</li>
+                <li>Any publications, technical reports, or open-source contributions</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Stay Informed</h2>
+            <p>Positions are announced directly on this site and on McMaster's official graduate recruitment channels. You may also monitor departmental communications for broader opportunities within Computing and Software.</p>
+            <p>In the meantime, we encourage you to review our recent publications and ongoing projects to see how RASSL aligns with your interests.</p>
+        </div>
+
+        <div class="card">
+            <h2>Contact</h2>
+            <p>If you have specific questions that are not answered here, you can reach the lab by email. Please note that we may not respond immediately during periods with no openings.</p>
+            <p>Email: <strong id="email-display" data-user="downd" data-domain="mcmaster.ca"></strong></p>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 RASSL | <a href="https://www.mcmaster.ca/" style="color: var(--mcmaster-gold);">McMaster University</a>
+    </footer>
+
+    <script>
+        (function() {
+            const emailElement = document.getElementById('email-display');
+            if (emailElement) {
+                const user = emailElement.getAttribute('data-user');
+                const domain = emailElement.getAttribute('data-domain');
+                if (user && domain) {
+                    emailElement.textContent = user + '@' + domain;
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

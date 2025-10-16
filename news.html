@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASSL News & Events</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mcmaster-maroon: #79003C;
+            --mcmaster-gold: #FDBF57;
+            --neutral-000: #ffffff;
+            --neutral-050: #f7f7f7;
+            --neutral-100: #333333;
+            --neutral-200: #e0e0e0;
+            --neutral-300: #cccccc;
+            --white: #ffffff;
+            --dark-grey: #23242A;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+            background: var(--neutral-050);
+            color: var(--neutral-100);
+            line-height: 1.7;
+        }
+        a { color: var(--mcmaster-maroon); }
+        .container {
+            width: min(1100px, 92%);
+            margin: 0 auto;
+            padding: 60px 0;
+        }
+
+        .site-header .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .site-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--mcmaster-gold);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .nav-brand a:hover {
+            text-decoration: none;
+        }
+
+        .nav-brand .logo {
+            max-height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links a {
+            color: var(--dark-grey);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            text-decoration: none;
+        }
+
+        .nav-links .logo {
+            max-height: 45px;
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .nav-links a:has(.logo) {
+            padding: 0;
+        }
+
+        .nav-links a:has(.logo):hover {
+            background-color: transparent;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--mcmaster-gold);
+            outline-offset: 2px;
+        }
+        .hero {
+            background: var(--neutral-000);
+            padding: 80px 0 40px;
+        }
+        .hero h1 {
+            font-family: "Roboto Condensed", sans-serif;
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            margin-bottom: 12px;
+            color: var(--mcmaster-maroon);
+        }
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 680px;
+        }
+        .cards {
+            display: grid;
+            gap: 24px;
+        }
+        .card {
+            background: var(--neutral-000);
+            padding: 28px;
+            border-radius: 10px;
+            border: 1px solid var(--neutral-200);
+            transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+        }
+        .card:hover {
+            border-color: var(--mcmaster-maroon);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(121, 0, 60, 0.08);
+        }
+        h2 {
+            font-family: "Roboto Condensed", sans-serif;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            margin-bottom: 16px;
+        }
+        h3 {
+            font-family: "Roboto Condensed", sans-serif;
+            margin-top: 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        footer {
+            background: #1f1f1f;
+            color: #d9d9d9;
+            text-align: center;
+            padding: 28px 0;
+            font-size: 0.9rem;
+        }
+        .link-chip {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 999px;
+            border: 2px solid var(--mcmaster-maroon);
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 18px;
+        }
+        .link-chip:hover {
+            background: rgba(121, 0, 60, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="container" aria-label="Primary">
+            <div class="nav-brand">
+                <a href="index.html">
+                    <img src="Logo2.png" alt="RASSL Lab Logo" class="logo">
+                </a>
+            </div>
+            <div class="nav-links" role="navigation" aria-label="Section">
+                <a href="index.html#welcome">Home</a>
+                <a href="news.html" aria-current="page">News</a>
+                <a href="index.html#research">Research</a>
+                <a href="index.html#people">People</a>
+                <a href="prospective-students.html">Prospective Students</a>
+                <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
+                    <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="logo">
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Latest News & Events</h1>
+            <p>Highlights from the Resource Allocation and Stochastic Systems Lab, including upcoming talks, milestones, and recent accomplishments from our researchers.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <h2>Upcoming Events</h2>
+        <div class="cards" style="margin-bottom: 48px;">
+            <div class="card">
+                <h3>September 25, 2025</h3>
+                <p>Zhaleh Rahimi will present her latest queueing theory results at the Departmental Seminar. Join us in ITB 102 at 2:00 PM.</p>
+            </div>
+            <div class="card">
+                <h3>October 10, 2025</h3>
+                <p>RASSL hosts a guest lecture on Data Center Optimization featuring industry partners discussing real-world deployment challenges.</p>
+            </div>
+        </div>
+
+        <h2>Recent Lab News</h2>
+        <div class="cards">
+            <div class="card">
+                <h3>Conference Acceptances</h3>
+                <p>Congratulations to Saira Musa, whose paper on network resource management was accepted to IEEE ICC 2025.</p>
+            </div>
+            <div class="card">
+                <h3>New Team Members</h3>
+                <p>Welcome to our newest MSc student, Shawn Xang, who will be focusing on reinforcement learning for data center scheduling.</p>
+            </div>
+            <div class="card">
+                <h3>Stay Connected</h3>
+                <p>Follow us on LinkedIn for more frequent updates from the lab.</p>
+                <a class="link-chip" href="https://www.linkedin.com/in/douglas-down-6b41b931/" target="_blank" rel="noopener noreferrer">Lab LinkedIn Presence</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2025 RASSL | <a href="https://www.mcmaster.ca/" style="color: var(--mcmaster-gold);">McMaster University</a>
+    </footer>
+</body>
+</html>

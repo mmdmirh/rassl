@@ -106,6 +106,7 @@
             padding: 10px 15px;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            font-weight: 500;
         }
 
         .nav-links a:hover {
@@ -125,6 +126,81 @@
         .nav-links a:has(.logo):hover {
             background-color: transparent;
             text-decoration: none;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 320px);
+            gap: 40px;
+            align-items: start;
+        }
+
+        .primary-content {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .primary-content section {
+            margin: 0;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: sticky;
+            top: 120px;
+        }
+
+        .sidebar-card {
+            background: var(--white);
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-card h3 {
+            font-family: 'Roboto Condensed', sans-serif;
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: var(--mcmaster-maroon);
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 18px 0;
+        }
+
+        .sidebar-card li {
+            margin-bottom: 12px;
+            color: var(--medium-grey);
+        }
+
+        .sidebar-card li strong {
+            color: var(--neutral-000);
+        }
+
+        .sidebar .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            text-align: center;
+            margin: 16px auto 0;
+            padding-inline: 20px;
+            border-radius: 999px;
+        }
+
+        @media (max-width: 1100px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+            }
         }
 
         /* Global link styles */
@@ -609,16 +685,16 @@
     <header class="site-header">
         <nav class="container" aria-label="Primary">
             <div class="nav-brand">
-                <a href="#">
+                <a href="index.html">
                     <img src="Logo2.png" alt="RASSL Lab Logo" class="logo">
                 </a>
             </div>
             <div class="nav-links" role="navigation" aria-label="Section">
-                <a href="#welcome">Home</a>
-                <a href="#news">News</a>
-                <a href="#research">Research</a>
-                <a href="#people">People</a>
-                <a href="#contact">Contact</a>
+                <a href="index.html#welcome">Home</a>
+                <a href="news.html">News</a>
+                <a href="index.html#research">Research</a>
+                <a href="index.html#people">People</a>
+                <a href="prospective-students.html">Prospective Students</a>
                 <a href="https://www.eng.mcmaster.ca" target="_blank" rel="noopener noreferrer">
                     <img src="mce-main-logo.svg" alt="McMaster University Faculty of Engineering logo" class="logo">
                 </a>
@@ -674,27 +750,9 @@
         </div>
     </section>
     <main id="main-content" role="main" aria-label="Main content">
-        <section id="news" class="container">
-            <h2>Latest News & Events</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <h3>Upcoming Events</h3>
-                    <ul>
-                        <li><strong>Sept 25, 2025:</strong> Zhaleh Rahimi presents research on queueing theory at the Departmental Seminar.</li>
-                        <li><strong>Oct 10, 2025:</strong> RASSL hosts a guest lecture on Data Center Optimization.</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <h3>Recent News</h3>
-                    <ul>
-                        <li>Congratulations to Saira Musa! Her paper was accepted to the IEEE ICC.</li>
-                        <li>We are pleased to welcome our new MSc student, Shawn Xang!</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="research" class="container">
+        <div class="container content-wrapper">
+            <div class="primary-content">
+        <section id="research" class="content-section">
             <h2>Our Research: Modelling and Optimizing Complex Systems</h2>
             <p style="text-align: center; max-width: 900px; margin: 0 auto 40px; font-size: 1.1rem; color: var(--medium-grey);">At the Resource Allocation and Stochastic Systems Lab (RASSL), we tackle fundamental challenges in the design and operation of modern computing and service systems. Our work is grounded in rigorous mathematical principles and aimed at delivering practical solutions for a more efficient and reliable world. Click on each pillar below to learn more.</p>
             <div class="accordion">
@@ -806,7 +864,7 @@
             </div>
         </section>
 
-        <section id="people" class="container">
+        <section id="people" class="content-section">
             <h2>Our Team</h2>
             <div class="card-grid">
                 <div class="card faculty-card">
@@ -882,7 +940,7 @@
             </div>
         </section>
 
-        <section id="publications" class="container">
+        <section id="publications" class="content-section">
             <h2>Latest Articles</h2>
             <div class="card-grid">
                 <div class="card">
@@ -932,6 +990,28 @@
                 </div>
             </div>
         </section>
+            </div>
+            <aside class="sidebar" aria-label="News and Prospective summaries">
+                <div class="sidebar-card">
+                    <h3>Latest News &amp; Events</h3>
+                    <ul>
+                        <li>Sept 25 seminar with Zhaleh Rahimi on queueing theory.</li>
+                        <li>Oct 10 guest lecture on Data Center Optimization.</li>
+                        <li>Saira Musa's paper accepted to IEEE ICC 2025.</li>
+                    </ul>
+                    <a class="btn btn-primary" href="news.html">Visit News Page</a>
+                </div>
+                <div class="sidebar-card">
+                    <h3>Prospective Students</h3>
+                    <ul>
+                        <li>No current openings—check back for future announcements.</li>
+                        <li>Review recommended materials and documentation.</li>
+                        <li>Watch this site and departmental channels for updates.</li>
+                    </ul>
+                    <a class="btn btn-secondary" href="prospective-students.html">Prospective Students</a>
+                </div>
+            </aside>
+        </div>
 
     </main>
 
