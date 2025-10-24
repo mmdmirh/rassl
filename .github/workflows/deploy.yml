@@ -1,0 +1,60 @@
+name: Deploy RASSL Website
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      
+      - name: Deploy to server
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_PATH: ${{ secrets.SERVER_PATH }}
+        run: |
+          echo "Deploying to $SERVER_USER@$SERVER_IP:$SERVER_PATH"
+          rsync -rltvz --no-perms --no-owner --no-group \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='*.py' \
+            --exclude='README.md' \
+            ./ $SERVER_USER@$SERVER_IP:$SERVER_PATH/
+      
+      - name: Fix permissions and SELinux
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_PATH: ${{ secrets.SERVER_PATH }}
+        run: |
+          ssh $SERVER_USER@$SERVER_IP << 'EOF'
+            sudo chown -R nginx:nginx ${{ secrets.SERVER_PATH }}
+            sudo chmod -R 755 ${{ secrets.SERVER_PATH }}
+            sudo chcon -R -t httpd_sys_content_t ${{ secrets.SERVER_PATH }}
+            sudo restorecon -R ${{ secrets.SERVER_PATH }}
+            sudo systemctl restart nginx
+            echo "Deployment completed successfully!"
+          EOF
+      
+      - name: Verify deployment
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+        run: |
+          echo "Checking website status..."
+          curl -I http://$SERVER_IP || echo "Website check failed"
+          echo "✅ Deployment complete! Website available at http://$SERVER_IP"
